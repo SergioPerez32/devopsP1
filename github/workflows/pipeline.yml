@@ -1,0 +1,18 @@
+name: Pipeline
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Docker
+        uses: docker-practice/actions-setup-docker@master
+      - name: Run Postman Collection
+        run: |
+          collectionPath="/home/runner/work/devopsP1/devopsP1"
+          docker run -v $collectionPath:/etc/newman -t postman/newman:latest run "DevOps.postman_collection.json" --reporters="cli"
